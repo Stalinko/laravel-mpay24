@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\LaravelMpay24;
+namespace LaravelMPay24;
 
 /**
  * The MPay24Api class provides the communication functioanallity. It hold's all the sensitive data (merchant ID, SOAP password, etc) and

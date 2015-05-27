@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\LaravelMpay24;
+namespace LaravelMPay24;
 
 class Shop extends MPay24Api {
     public $tid = "My first order";

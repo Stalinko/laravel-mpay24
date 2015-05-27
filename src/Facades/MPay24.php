@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\LaravelMPay24\Facades;
+namespace LaravelMPay24\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

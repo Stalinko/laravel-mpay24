@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\LaravelMpay24;
+namespace LaravelMPay24;
 
 use Illuminate\Support\ServiceProvider;
 

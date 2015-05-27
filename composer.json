@@ -1,11 +1,11 @@
 {
   "name": "stalinko/mpay_test",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "autoload": {
     "psr-0": {
-      "Stalinko\\LaravelMpay24": "src/"
+      "LaravelMPay24\\": "src/"
     },
-    "classmap": "src/MPay24"
+    "classmap": "src/MPay24/"
   },
   "require": {
     "php": ">=5.3.0"

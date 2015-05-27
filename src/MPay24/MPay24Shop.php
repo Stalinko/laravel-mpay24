@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\LaravelMpay24;
+namespace LaravelMPay24;
 
 /**
  * The abstract MPay24Shop class provides abstract functions, which are used from the other functions in order to make a payment or a request to mPAY24
