@@ -16,6 +16,14 @@ class Shop extends MPay24Shop {
         'confirmation' => '',
     ];
 
+    /**
+     * @param int|string $merchantID
+     * @param string     $soapPassword
+     * @param bool       $test
+     * @param string     $proxyHost
+     * @param string     $proxyPort
+     * @param bool       $debug
+     */
     function __construct($merchantID, $soapPassword, $test, $proxyHost=null, $proxyPort=null, $debug=false)
     {
         $this->callbacks = [
@@ -24,7 +32,7 @@ class Shop extends MPay24Shop {
             'confirmation' => config('services.mpay24.confirmationUrl'),
         ];
 
-        parent::MPay24Shop($merchantID, $soapPassword, $test, $proxyHost=null, $proxyPort=null, $debug=false);
+        parent::__construct($merchantID, $soapPassword, $test, $proxyHost, $proxyPort, $debug);
     }
 
     /**

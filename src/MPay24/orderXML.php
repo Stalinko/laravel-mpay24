@@ -37,7 +37,7 @@ class ORDER {
     if ($doc)
       $this->doc = $doc;
     else {
-      $this->doc = new DOMDocument("1.0", "UTF-8");
+      $this->doc = new \DOMDocument("1.0", "UTF-8");
       $this->doc->formatOutput = true;
     }
 
@@ -75,7 +75,7 @@ class ORDER {
 
       $name = $method . '[' . $args[0] . ']';
 
-      $xpath = new DOMXPath($this->doc);
+      $xpath = new \DOMXPath($this->doc);
       $qry = $xpath->query($name,$this->node);
 
       if ($qry->length > 0)
@@ -107,7 +107,7 @@ class ORDER {
    * @return            ORDER
    */
   public function __get($name) {
-    $xpath = new DOMXPath($this->doc);
+    $xpath = new \DOMXPath($this->doc);
     $qry = $xpath->query($name,$this->node);
 
     if ($qry->length > 0)
@@ -125,7 +125,7 @@ class ORDER {
    * @param             mixed               $value                        The value of the Node you want to set
    */
   public function __set($name, $value) {
-    $xpath = new DOMXPath($this->doc);
+    $xpath = new \DOMXPath($this->doc);
     $qry = $xpath->query($name,$this->node);
 
     $value = str_replace('&', '&amp;', $value);

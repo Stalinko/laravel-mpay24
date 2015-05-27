@@ -30,7 +30,7 @@ abstract class MPay24Shop extends Transaction {
    * @param             bool                $debug                        TRUE - when you want to write log files,
    *                                                                      FALSE - when you don't want write log files
    */
-  function MPay24Shop($merchantID, $soapPassword, $test, $proxyHost=null, $proxyPort=null, $debug=false) {
+  function __construct($merchantID, $soapPassword, $test, $proxyHost=null, $proxyPort=null, $debug=false) {
     if(!is_bool($test))
       die("The test parameter '$test' you have given is wrong, it must be boolean value 'true' or 'false'!");
 
@@ -654,7 +654,7 @@ class Transaction {
    * Create a transaction object and set the allowed properties from the TRANSACTION_PROPERTIES
    * @param             string              $tid                          The ID of a transaction
    */
-  function Transaction($tid) {
+  function __construct($tid) {
     $this->allowedProperties =  explode(",", preg_replace('/\s*/m', '', TRANSACTION_PROPERTIES));
     $this->TID = $tid;
   }
@@ -727,7 +727,7 @@ abstract class MPay24flexLINK {
    * @param             bool                $debug                        TRUE - when you want to write log files
    *
    */
-  function MPay24flexLINK($spid, $password, $test, $debug=false) {
+  function __construct($spid, $password, $test, $debug=false) {
     if(!is_bool($test))
       die("The test parameter '$test' you have given is wrong, it must be boolean value 'true' or 'false'!");
 
