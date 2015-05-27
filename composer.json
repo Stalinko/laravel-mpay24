@@ -1,6 +1,6 @@
 {
   "name": "stalinko/mpay_test",
-  "version": "dev-master",
+  "version": "1.0.1",
   "autoload": {
     "classmap": "src/MPay24"
   }
