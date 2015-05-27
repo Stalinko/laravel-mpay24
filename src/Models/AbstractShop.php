@@ -1,90 +1,21 @@
 <?php
 
-namespace LaravelMPay24;
+namespace LaravelMPay24\Models;
 
-use LaravelMPay24\Models\AbstractShop;
-use LaravelMPay24\Models\Exception;
+use LaravelMPay24\ORDER;
+use LaravelMPay24\Transaction;
 
-class Shop extends MPay24Shop {
-    /** @var AbstractShop a shop object to which all the actions will be delegated to */
-    private $shop;
-
-    private $callbacks = [
-        'success' => '',
-        'error' => '',
-        'confirmation' => '',
-    ];
-
-    /**
-     * @param int|string $merchantID
-     * @param string     $soapPassword
-     * @param bool       $test
-     * @param string     $proxyHost
-     * @param string     $proxyPort
-     * @param bool       $debug
-     */
-    function __construct($merchantID, $soapPassword, $test, $proxyHost=null, $proxyPort=null, $debug=false)
-    {
-        $this->callbacks = [
-            'success' => config('services.mpay24.successUrl'),
-            'error' => config('services.mpay24.errorUrl'),
-            'confirmation' => config('services.mpay24.confirmationUrl'),
-        ];
-
-        parent::__construct($merchantID, $soapPassword, $test, $proxyHost, $proxyPort, $debug);
-    }
-
-    /**
-     * @param AbstractShop $shop
-     */
-    public function setShopDelegator(AbstractShop $shop)
-    {
-        $this->shop = $shop;
-    }
-
+abstract class AbstractShop {
     /**
      * @return Transaction
-     * @throws Exception
      */
-    public function createTransaction()
-    {
-        return $this->shop->createTransaction();
-    }
+    public function createTransaction(){}
 
     /**
      * @param Transaction $transaction
      * @return ORDER
-     * @throws Exception
      */
-    public function createMDXI($transaction)
-    {
-        $order = $this->shop->createMDXI($transaction);
-        $this->prepareOrderUrls($order);
-
-        return $order;
-    }
-
-    /**
-     * @param ORDER $order
-     */
-    public function prepareOrderUrls(ORDER $order)
-    {
-        if(empty($order->Order->URL->Success) && !empty($this->callbacks['success'])) {
-            $order->Order->URL->Success = action($this->callbacks['success']);
-        }
-
-        if(empty($order->Order->URL->Error) && !empty($this->callbacks['error'])) {
-            $order->Order->URL->Error = action($this->callbacks['error']);
-        }
-
-        if(empty($order->Order->URL->Confirmation) && !empty($this->callbacks['confirmation'])) {
-            $order->Order->URL->Confirmation = action($this->callbacks['confirmation']);
-        }
-    }
-
-    /******************************************
-     * Methods delegated to "shop" delegator  *
-     ******************************************/
+    public function createMDXI($transaction){}
 
     /**
      * Actualize the transaction, which has a transaction ID = $tid with the values from $args in your shop and return it
@@ -92,39 +23,27 @@ class Shop extends MPay24Shop {
      * @param             array               $args                         Arrguments with them the transaction is to be updated
      * @param             bool                $shippingConfirmed            TRUE if the shipping address is confirmed, FALSE - otherwise (in case of PayPal Express Checkout)
      */
-    public function updateTransaction($tid, $args, $shippingConfirmed)
-    {
-        $this->shop->updateTransaction($tid, $args, $shippingConfirmed);
-    }
+    public function updateTransaction($tid, $args, $shippingConfirmed){}
 
     /**
      * @param string $tid
-     * @return Transaction
+     * @return            Transaction
      */
-    public function getTransaction($tid)
-    {
-        return $this->shop->getTransaction($tid);
-    }
+    public function getTransaction($tid){}
 
     /**
      * Using the ORDER object from order.php, create a order-xml, which is needed for a transaction with profiles to be started
      * @param             string              $tid                          The transaction ID of the transaction you want to make an order transaction XML file for
      * @return            \DOMDocument
      */
-    public function createProfileOrder($tid)
-    {
-        return $this->shop->createProfileOrder($tid);
-    }
+    public function createProfileOrder($tid){}
 
     /**
      * Using the ORDER object from order.php, create a order-xml, which is needed for a transaction with PayPal Express Checkout to be started
      * @param             string              $tid                          The transaction ID of the transaction you want to make an order transaction XML file for
      * @return            \DOMDocument
      */
-    public function createExpressCheckoutOrder($tid)
-    {
-        return $this->shop->createExpressCheckoutOrder($tid);
-    }
+    public function createExpressCheckoutOrder($tid){}
 
     /**
      * Using the ORDER object from order.php, create a order-xml, which is needed for a transaction with PayPal Express Checkout to be finished
@@ -134,20 +53,14 @@ class Shop extends MPay24Shop {
      * @param             bool                $cancel                       TRUE if the a cancelation is wanted after renewing the amounts and FALSE otherwise
      * @return            \DOMDocument
      */
-    public function createFinishExpressCheckoutOrder($tid, $shippingCosts, $amount, $cancel)
-    {
-        return $this->shop->createFinishExpressCheckoutOrder($tid, $shippingCosts, $amount, $cancel);
-    }
+    public function createFinishExpressCheckoutOrder($tid, $shippingCosts, $amount, $cancel){}
 
     /**
      * Write a log into a file, file system, data base
      * @param             string              $operation                    The operation, which is to log: GetPaymentMethods, Pay, PayWithProfile, Confirmation, UpdateTransactionStatus, ClearAmount, CreditAmount, CancelTransaction, etc.
      * @param             string              $info_to_log                  The information, which is to log: request, response, etc.
      */
-    public function write_log($operation, $info_to_log)
-    {
-        $this->shop->write_log($operation, $info_to_log);
-    }
+    public function write_log($operation, $info_to_log){}
 
     /**
      * This is an optional function, but it's strongly recomended that you implement it - see details.
@@ -162,18 +75,12 @@ class Shop extends MPay24Shop {
      * @param             string              $timeStamp                    The timeStamp at the moment the transaction is created
      * @return            string
      */
-    public function createSecret($tid, $amount, $currency, $timeStamp)
-    {
-        return $this->shop->createSecret($tid, $amount, $currency, $timeStamp);
-    }
+    public function createSecret($tid, $amount, $currency, $timeStamp){}
 
     /**
      * Get the secret (hashed) token for a transaction
      * @param             string              $tid                          The transaction ID you want to get the secret key for
      * @return            string
      */
-    public function getSecret($tid)
-    {
-        return $this->shop->getSecret($tid);
-    }
+    public function getSecret($tid){}
 }
