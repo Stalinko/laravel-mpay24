@@ -13,7 +13,7 @@ namespace LaravelMPay24;
 abstract class MPay24Shop extends Transaction {
   /**
    * The mPAY24API Object, with you are going to work
-   * @var               $mPay24Api
+   * @var MPay24Api $mPay24Api
    */
   var $mPay24Api = null;
 
@@ -104,14 +104,14 @@ abstract class MPay24Shop extends Transaction {
   /**
    * Using the ORDER object from order.php, create a order-xml, which is needed for a transaction with profiles to be started
    * @param             string              $tid                          The transaction ID of the transaction you want to make an order transaction XML file for
-   * @return            XML
+   * @return            \DOMDocument
    */
   abstract function createProfileOrder($tid);
 
   /**
    * Using the ORDER object from order.php, create a order-xml, which is needed for a transaction with PayPal Express Checkout to be started
    * @param             string              $tid                          The transaction ID of the transaction you want to make an order transaction XML file for
-   * @return            XML
+   * @return            \DOMDocument
    */
   abstract function createExpressCheckoutOrder($tid);
 
@@ -121,7 +121,7 @@ abstract class MPay24Shop extends Transaction {
    * @param             string              $shippingCosts                The shipping costs amount for the transaction, provided by PayPal, after changing the shipping address
    * @param             string              $amount                       The new amount for the transaction, provided by PayPal, after changing the shipping address
    * @param             bool                $cancel                       TRUE if the a cancelation is wanted after renewing the amounts and FALSE otherwise
-   * @return            XML
+   * @return            \DOMDocument
    */
   abstract function createFinishExpressCheckoutOrder($tid, $shippingCosts, $amount, $cancel);
 
@@ -351,7 +351,7 @@ abstract class MPay24Shop extends Transaction {
       $this->write_log("Status for transaction " . $tid . ":", utf8_encode($to_log)."\n");
 
     if($transactionStatus->getParam("SHIPPING_ADDR")) {
-      $order = new DOMDocument();
+      $order = new \DOMDocument();
       $order->loadXML($transactionStatus->getParam("SHIPPING_ADDR"));
     }
 
@@ -391,7 +391,7 @@ abstract class MPay24Shop extends Transaction {
    * * NOT FOUND - in case there is not such a transaction in the mPAY24 database
    * * ERROR - in case the transaction was not successful
    * @param             string              $tid                          The transaction ID (in your shop), for the transaction you are asking for
-   * @return            array
+   * @return            TransactionStatusResponse
    */
   function updateTransactionStatus($tid) {
     if(!$this->mPay24Api)
@@ -412,7 +412,7 @@ abstract class MPay24Shop extends Transaction {
       }
 
       if($tidTransactionStatusResult->getParam("SHIPPING_ADDR")) {
-        $order = new DOMDocument();
+        $order = new \DOMDocument();
         $order->loadXML($tidTransactionStatusResult->getParam("SHIPPING_ADDR"));
       }
 
@@ -452,7 +452,7 @@ abstract class MPay24Shop extends Transaction {
       }
 
       if($mPAYTidTransactionStatusResult->getParam("SHIPPING_ADDR")) {
-        $order = new DOMDocument();
+        $order = new \DOMDocument();
         $order->loadXML($mPAYTidTransactionStatusResult->getParam("SHIPPING_ADDR"));
       }
 
@@ -713,7 +713,7 @@ class Transaction {
 abstract class MPay24flexLINK {
   /**
    * The mPAY24API Object, you are going to work with
-   * @var               $mPay24Api
+   * @var MPay24Api $mPay24Api
    */
   var $mPay24Api = null;
 
@@ -881,8 +881,8 @@ abstract class MPay24flexLINK {
 
   /**
    * Get the whole URL (flexLINK) to the mPAY24 pay page, used to pay an invoice
-   * @param             string              $encryptedParams              The encrypted parameters, returned by the function getEncryptedParams
-   * @return            stringAn URL to pay
+   * @param             string $encryptedParams              The encrypted parameters, returned by the function getEncryptedParams
+   * @return            string An URL to pay
    */
   public function getPayLink($encryptedParams) {
     if($this->mPay24Api->getDebug())

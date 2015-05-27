@@ -276,8 +276,10 @@ class MPay24Api {
    * Start a secure payment through the mPAY24 payment window -
    * the sensible data (credit card numbers, bank account numbers etc)
    * is (will be) not saved in the shop
-   * @param             ORDER               $mdxi                         The mdxi xml, which contains the shopping cart
-   * @return            PaymentResponse
+   *
+   * @param string $mdxi The mdxi xml, which contains the shopping cart
+   *
+   * @return PaymentResponse
    */
   public function SelectPayment($mdxi) {
     $xml = $this->buildEnvelope();
@@ -312,8 +314,10 @@ class MPay24Api {
    * a customer profile (you have already created) will be used for the payment.
    * The payment window will not be called, the payment source (for example credit card),
    * which was used from the customer by the last payment will be used for the transaction.
-   * @param             ORDER               $requestString                The order xml, which contains the shopping cart
-   * @return            SelectPaymentResponse
+   *
+   * @param string $requestString The order xml, which contains the shopping cart
+   *
+   * @return PaymentResponse
    */
   public function ProfilePayment($requestString) {
     $xml = $this->buildEnvelope();
@@ -322,7 +326,7 @@ class MPay24Api {
     $operation = $xml->createElementNS('https://www.mpay24.com/soap/etp/1.5/ETP.wsdl', 'etp:AcceptPayment');
     $operation = $body->appendChild($operation);
 
-    $requestXML = new DOMDocument("1.0", "UTF-8");
+    $requestXML = new \DOMDocument("1.0", "UTF-8");
     $requestXML->formatOutput = true;
     $requestXML->loadXML($requestString);
 
@@ -347,7 +351,7 @@ class MPay24Api {
     * the customer doesn't need to be logged in in the shop or to give any data
     * (addresses or payment information), but will be redirected to the PayPal site,
     * and all the information from PayPal will be taken for the payment.
-    * @param            ORDER               $requestString                The order xml, which contains the shopping cart
+    * @param            string               $requestString                The order xml, which contains the shopping cart
     * @return           PaymentResponse
     */
   public function ExpressCheckoutPayment($requestString) {
@@ -357,7 +361,7 @@ class MPay24Api {
     $operation = $xml->createElement('etp:AcceptPayment');
     $operation = $body->appendChild($operation);
 
-    $requestXML = new DOMDocument("1.0", "UTF-8");
+    $requestXML = new \DOMDocument("1.0", "UTF-8");
     $requestXML->formatOutput = true;
     $requestXML->loadXML($requestString);
 
@@ -392,7 +396,7 @@ class MPay24Api {
     $operation = $xml->createElement('etp:ManualCallback');
     $operation = $body->appendChild($operation);
 
-    $requestXML = new DOMDocument("1.0", "UTF-8");
+    $requestXML = new \DOMDocument("1.0", "UTF-8");
     $requestXML->formatOutput = true;
     $requestXML->loadXML($requestString);
 
@@ -643,10 +647,10 @@ class MPay24Api {
   /**
    * Create a DOMDocument and prepare it for SOAP request:
    * set Envelope, NameSpaces, create empty Body
-   * @return            DOMDocument
+   * @return            \DOMDocument
    */
   private function buildEnvelope() {
-    $this->soap_xml = new DOMDocument("1.0", "UTF-8");
+    $this->soap_xml = new \DOMDocument("1.0", "UTF-8");
     $this->soap_xml->formatOutput = true;
 
     $envelope = $this->soap_xml->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'soapenv:Envelope');
@@ -693,7 +697,7 @@ class MPay24Api {
 
       if($this->debug)
         fclose($fh);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
       if($this->test)
         $dieMSG = "Your request couldn't be sent because of the following error:" . "\n" .
         curl_error($ch) . "\n" .
@@ -776,7 +780,7 @@ class GeneralResponse {
    */
   function GeneralResponse($response) {
     if($response != '') {
-      $responseAsDOM = new DOMDocument();
+      $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
 
       if(!empty($responseAsDOM) && is_object($responseAsDOM))
@@ -854,7 +858,7 @@ class PaymentResponse extends GeneralResponse {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
-      $responseAsDOM = new DOMDocument();
+      $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
 
       if(!empty($responseAsDOM) && is_object($responseAsDOM) && $responseAsDOM->getElementsByTagName('location')->length != 0)
@@ -915,7 +919,7 @@ class ManagePaymentResponse extends GeneralResponse {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
-      $responseAsDOM = new DOMDocument();
+      $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
 
       if($responseAsDOM && $responseAsDOM->getElementsByTagName('mpayTID')->length != 0 && $responseAsDOM->getElementsByTagName('tid')->length != 0) {
@@ -996,7 +1000,7 @@ class ListPaymentMethodsResponse extends GeneralResponse {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
-      $responseAsDOM = new DOMDocument();
+      $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
 
       if($responseAsDOM && $responseAsDOM->getElementsByTagName('all')->length != 0) {
@@ -1115,7 +1119,7 @@ class TransactionStatusResponse extends GeneralResponse {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
-      $responseAsDOM = new DOMDocument();
+      $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
 
       if($responseAsDOM && $responseAsDOM->getElementsByTagName('name')->length != 0) {

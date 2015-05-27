@@ -19,19 +19,19 @@ define ("MDXI_SCHEMA","https://www.mpay24.com/schemas/MDXI/v3.0/MDXI.xsd");
 class ORDER {
   /**
    * The DOMDocument, which the MDXI XML will be build on
-   * @var               DOMDocument
+   * @var               \DOMDocument
    */
   private $doc;
   /**
    * A DOMNode from the MDXI XML, or the whole MDXI XML, represented as DOMDocument
-   * @var               DOMDocument|DOMNode
+   * @var               \DOMDocument|\DOMNode
    */
   private $node;
 
   /**
    * Create a DOMDocument or a ORDER-Object with root $doc
-   * @param             DOMNode             $doc                          The root DOMNode of an XML tree
-   * @param             DOMNode             $node                         The child DOMNode
+   * @param             \DOMNode             $doc                          The root DOMNode of an XML tree
+   * @param             \DOMNode             $node                         The child DOMNode
    */
   public function ORDER($doc=null,$node=null) {
     if ($doc)
@@ -149,7 +149,7 @@ class ORDER {
 
   /**
    * Create a XML-Object from the ORDER-Object and return it
-   * @return            XML
+   * @return string
    */
   public function toXML() {
     return $this->doc->saveXML();
