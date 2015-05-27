@@ -33,7 +33,7 @@ class ORDER {
    * @param             \DOMNode             $doc                          The root DOMNode of an XML tree
    * @param             \DOMNode             $node                         The child DOMNode
    */
-  public function ORDER($doc=null,$node=null) {
+  public function __construct($doc=null,$node=null) {
     if ($doc)
       $this->doc = $doc;
     else {

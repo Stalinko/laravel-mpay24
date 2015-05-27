@@ -778,7 +778,7 @@ class GeneralResponse {
    * Sets the basic values from the response from mPAY24: status and return code
    * @param             string              $response                     The SOAP response from mPAY24 (in XML form)
    */
-  function GeneralResponse($response) {
+  function __construct($response) {
     if($response != '') {
       $responseAsDOM = new \DOMDocument();
       $responseAsDOM->loadXML($response);
@@ -854,7 +854,7 @@ class PaymentResponse extends GeneralResponse {
    * Sets the values for a payment from the response from mPAY24: mPAY transaction ID, error number and location (URL)
    * @param             string              $response                     The SOAP response from mPAY24 (in XML form)
    */
-  function PaymentResponse($response) {
+  function __construct($response) {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
@@ -915,7 +915,7 @@ class ManagePaymentResponse extends GeneralResponse {
    * Sets the values for a payment from the response from mPAY24: mPAY transaction IDand transaction ID from the shop
    * @param             string              $response                     The SOAP response from mPAY24 (in XML form)
    */
-  function ManagePaymentResponse($response) {
+  function __construct($response) {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
@@ -996,7 +996,7 @@ class ListPaymentMethodsResponse extends GeneralResponse {
    * Sets the values for a payment from the response from mPAY24: count, payment types, brands and descriptions
    * @param             string              $response                     The SOAP response from mPAY24 (in XML form)
    */
-  function ListPaymentMethodsResponse($response) {
+  function __construct($response) {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
@@ -1115,7 +1115,7 @@ class TransactionStatusResponse extends GeneralResponse {
    * Sets the values for a transaction from the response from mPAY24: STATUS, PRICE, CURRENCY, LANGUAGE, etc
    * @param             string              $response                     The SOAP response from mPAY24 (in XML form)
    */
-  function TransactionStatusResponse($response) {
+  function __construct($response) {
     $this->generalResponse = new GeneralResponse($response);
 
     if($response != '') {
