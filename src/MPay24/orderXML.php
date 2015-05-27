@@ -1,6 +1,6 @@
 <?php
 
-namespace Stalinko\MPay24;
+namespace Stalinko\LaravelMpay24;
 
 /**
  * The URL specified from mPAY24, where MDXI schema will be download from
