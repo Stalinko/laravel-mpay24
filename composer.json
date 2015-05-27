@@ -1,5 +1,5 @@
 {
-  "name": "stalinko/mpay_test",
+  "name": "stalinko/laravel-mpay24",
   "version": "1.0.6",
   "autoload": {
     "psr-4": {
