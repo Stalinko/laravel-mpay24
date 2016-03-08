@@ -5,7 +5,7 @@
     "psr-4": {
       "LaravelMPay24\\": "src/"
     },
-    "classmap": "src/MPay24/"
+    "classmap": ["src/MPay24/"]
   },
   "require": {
     "php": ">=5.3.0"
